@@ -1,8 +1,33 @@
 # pyengine
-Just a simple "physics" engine i wrote in python. probably wont make it far bcz i suck at math lmao
+## An in-development physics engine module.
+
+Example code:
+```python
+import pyengine
+
+type = "rect" # Type of the shape. Make sure this is rect for now because no other shapes are supported at the current moment.
+velocity = 120.0 # The speed of the shape. Make it negative for it to go up.
+bounce_coefficient = -1.0 # make sure this is -1. Or else it gets bugged.
+size = 50 # Size of the CUBE.
+pos = [175,0] # Position of the shape. The canvas is 400x400. 175 is the center 
+#because the positioning system positions it to the left-top corner.
+
+color = "blue" # Any tkinter-supported color you might like.
+name = 'rectangle' # names the shape, not that usefull for now, but will be in the later versions.
+
+pyengine.Obj.create(type,velocity,bounce_coefficient,size,pos,color,name) # Creates the object. 
+#For now you can not do more than one but that is just for now.
+
+pyengine.baba() # Executes the engine
+```
+
 |                               Geometric Shape / Function                               |                         Supported                                             
 |:--------------------------------------------------------------------------------------:|:-------------------------------------------------------------------|
-| Cube                                                                                   | Currently is in the main, not usable as function.   ❌✔️          |
+| Cube                                                                                   | ✔️                                                                |
+| Rectangle                                                                              | ❌                                                     |
 | Triangle  | ❌
 | Sphere | ❌
 | Ragdoll | ❌
+
+
+Version: ``ALPHA 1.0``
