@@ -7,7 +7,7 @@ Now you can create infinite amount of objects.
 
 Example code:
 ```python
-import pyengine
+import pysigs
 
 type = "rect" # Type of the shape. Make sure this is rect for now because no other shapes are supported at the current moment.
 velocity = 120.0 # The speed of the shape. Make it negative for it to go up.
