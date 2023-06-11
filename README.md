@@ -1,4 +1,4 @@
-# pysigs
+# pysics
 ## An in-development physics engine module.
 
 
@@ -7,7 +7,7 @@ Now you can create infinite amount of objects.
 
 Example code:
 ```python
-import pysigs
+import pysics
 
 type = "rect" # Type of the shape. Make sure this is rect for now because no other shapes are supported at the current moment.
 velocity = 120.0 # The speed of the shape. Make it negative for it to go up.
@@ -20,11 +20,11 @@ pos2 = [100,0] # Position of the shape. The canvas is 400x400. 175 is the center
 color = "blue" # Any tkinter-supported color you might like.
 name = 'rectangle' # names the shape, not that usefull for now, but will be in the later versions.
 
-pysigs.Obj.create(type,velocity,bounce_coefficient,size,pos,color,name) # Creates the object. 
-pysigs.Object.create(type, velocity, bounce_coefficient, size, pos2, "red", "obj2") # The second object. Make sure the names are not the same. 
+pysics.Obj.create(type,velocity,bounce_coefficient,size,pos,color,name) # Creates the object. 
+pysics.Object.create(type, velocity, bounce_coefficient, size, pos2, "red", "obj2") # The second object. Make sure the names are not the same. 
  # Also made the color red in this one and changed the position to pos2, the second variable for position.
  
-pysigs.baba() # Executes the engine
+pysics.baba() # Executes the engine
 ```
 
 |                               Geometric Shape / Function                               |                         Supported                                             
