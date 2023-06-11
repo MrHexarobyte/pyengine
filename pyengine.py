@@ -1,13 +1,30 @@
+import ast
 import tkinter as tk
-class Obj:
-    type = ''
-    velocity = 50
-    bounce_coefficient = -1.0 # make it lower to make it less bouncier
-    size = 50
-    pos = [175,0]
-    color = "red"
-    main = 'Obj.pos[0], Obj.pos[1], Obj.size + Obj.pos[0], Obj.size + Obj.pos[1], fill=Obj.color'
-    def create(xtype='',xvelocity=50,xbounce_coefficient=-1,xsize = 50,xpos=[175,0],xcolor="red",xname='rect'):
+
+
+class BaseObj:
+    def __init__(self):
+        self.type = ''
+        self.velocity = 50
+        self.bounce_coefficient = -1.0
+        self.size = 50
+        self.pos = [175, 0]
+        self.color = "red"
+        self.main = f'{self.pos[0]}, {self.pos[1]}, {self.size + self.pos[0]}, {self.size+self.pos[1]}, fill="{self.color}"'
+        self.name = 'example'
+
+
+
+
+
+
+
+
+class Object:
+    created_classes = []
+
+    @classmethod
+    def create(cls, xtype, vel, bc, sz, ps, cl, nm):
         '''
         ## --ARGUMENTS:--
         1: type <-> Type of the shape (ex: `'rect'`)
@@ -21,67 +38,71 @@ class Obj:
         
         
         '''
-        Obj.type = xtype
-        Obj.velocity = xvelocity
-        Obj.bounce_coefficient = xbounce_coefficient
-        Obj.size = xsize
-        Obj.pos = xpos
-        Obj.color = xcolor
-        Obj.name = xname
-        
+        class TemplateClass(BaseObj):
+            def __init__(self):
+                BaseObj.__init__(self)
+                self.type = xtype
+                self.velocity = vel
+                self.bounce_coefficient = bc
+                self.size = sz
+                self.pos = ps
+                self.color = cl
+                self.name = nm
+                self.main = f'{self.pos[0]}, {self.pos[1]}, {self.size + self.pos[0]}, {self.size+self.pos[1]}, fill="{self.color}"'
+
+        new_class = type(nm, (TemplateClass,), {})
+        cls.created_classes.append(new_class)
+        return new_class()
 
 
 class pyengine_cube:
     def __init__(self, master):
         self.master = master
-        # -- Canvas Properties
-
         self.canvas_name = 'Physics Graphics'
         self.canvas_width = 400
         self.canvas_height = 400
-        
         self.time_interval = 0.01
+        self.canvas = tk.Canvas(master, width=400, height=400, bg='gray')
+        self.canvas.pack()
+        self.rectangles = {}  # Dictionary to store the rectangles
 
         self.master.title(self.canvas_name)
-        self.canvas = tk.Canvas(self.master, width=self.canvas_width, height=self.canvas_height, bg='gray')
         self.canvas.pack()
         self.master.resizable(False, False)
         self.last_position = self.master.winfo_geometry()
-        
-        
-        
-        
-        if Obj.type == "rect":
-            exec(f'self.{Obj.name} = self.canvas.create_rectangle({Obj.main})')
-            exec(f'self.animate(self.{Obj.name})')
-        
-        
-        
-        
-        
 
-    def animate(self, rect):
-        self.update_position(rect)
-        self.master.after(int(self.time_interval * 1000), lambda: self.animate(rect))
+        created_instances = [cls() for cls in Object.created_classes]
+        for instance in created_instances:
+            self.ins = instance
+            self.nm = instance.name
+            self.m = instance.main
+            self.x = eval(f'self.canvas.create_rectangle({self.m})')
+            self.animate(self.x, instance)
 
-    def update_position(self, rect):
+
+
+
+    def animate(self, rect, obj):
+        self.update_position(rect, obj)
+        self.master.after(int(self.time_interval * 1000), lambda: self.animate(rect, obj))
+
+    def update_position(self, rect, obj):
         x1, y1, x2, y2 = self.canvas.coords(rect)
 
         # Update position based on velocity
-        y1 += Obj.velocity * self.time_interval
-
-        y2 = y1 + Obj.size
+        y1 += obj.velocity * self.time_interval
+        y2 = y1 + obj.size
 
         # Check for collision with window edges
         if y1 < 0 or y2 > self.canvas_height:
             y1 = max(0, y1)  # Keep the rectangle within the window boundaries
             y2 = min(self.canvas_height, y2)
-            Obj.velocity -= 20
-            Obj.velocity *= Obj.bounce_coefficient  # Apply bounce off by reversing direction
-            print(Obj.velocity) 
+            obj.velocity -= 20
+            obj.velocity *= obj.bounce_coefficient  # Apply bounce off by reversing direction
+            print(obj.velocity)
 
         if y1 > 0 or y2 < self.canvas_height:
-            Obj.velocity += 0.5
+            obj.velocity += 0.5
 
         # Update rectangle position
         self.canvas.coords(rect, x1, y1, x2, y2)
@@ -94,14 +115,10 @@ class pyengine_cube:
             diff_x = int(current_position.split('+')[1]) - int(self.last_position.split('+')[1])
             diff_y = int(current_position.split('+')[2]) - int(self.last_position.split('+')[2])
             if diff_y > 0:
-                Obj.velocity += 50
+                obj.velocity += 50
             elif diff_y < 0:
-                Obj.velocity += 50
+                obj.velocity += 50
         self.last_position = current_position
-
-
-
-
 
 
 def baba():
