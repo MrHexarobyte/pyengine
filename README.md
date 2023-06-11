@@ -37,4 +37,11 @@ pysics.baba() # Executes the engine
 | Ragdoll | ❌
 
 
+
+#### TODO:
+- [x] make multi-object based
+- [ ] create wiki
+- [ ] add support for more shapes
+- [ ] add window name function
+
 Version: ``ALPHA 2.0``
