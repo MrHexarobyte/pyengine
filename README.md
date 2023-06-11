@@ -20,11 +20,11 @@ pos2 = [100,0] # Position of the shape. The canvas is 400x400. 175 is the center
 color = "blue" # Any tkinter-supported color you might like.
 name = 'rectangle' # names the shape, not that usefull for now, but will be in the later versions.
 
-pyengine.Obj.create(type,velocity,bounce_coefficient,size,pos,color,name) # Creates the object. 
-pyengineip.Object.create(type, velocity, bounce_coefficient, size, pos2, "red", "obj2") # The second object. Make sure the names are not the same. 
+pysigs.Obj.create(type,velocity,bounce_coefficient,size,pos,color,name) # Creates the object. 
+pysigs.Object.create(type, velocity, bounce_coefficient, size, pos2, "red", "obj2") # The second object. Make sure the names are not the same. 
  # Also made the color red in this one and changed the position to pos2, the second variable for position.
  
-pyengine.baba() # Executes the engine
+pysigs.baba() # Executes the engine
 ```
 
 |                               Geometric Shape / Function                               |                         Supported                                             
