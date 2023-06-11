@@ -1,4 +1,4 @@
-# pyengine
+# pysigs
 ## An in-development physics engine module.
 
 
