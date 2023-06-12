@@ -40,7 +40,7 @@ pysics.baba(400,400) # Executes the engine. ( It creates the window with width a
 
 #### TODO:
 - [x] make multi-object based
-- [ ] create wiki
+- [x] create wiki
 - [ ] add support for more shapes
 - [x] add window name function
 
