@@ -56,13 +56,13 @@ class Object:
 
 
 class pyengine_cube:
-    def __init__(self, master):
+    def __init__(self, master,w,h):
         self.master = master
         self.canvas_name = 'Physics Graphics'
-        self.canvas_width = 400
-        self.canvas_height = 400
+        self.canvas_width = w
+        self.canvas_height = h
         self.time_interval = 0.01
-        self.canvas = tk.Canvas(master, width=400, height=400, bg='gray')
+        self.canvas = tk.Canvas(master, width=self.canvas_width, height=self.canvas_height, bg='gray')
         self.canvas.pack()
         self.rectangles = {}  # Dictionary to store the rectangles
 
@@ -121,7 +121,7 @@ class pyengine_cube:
         self.last_position = current_position
 
 
-def baba():
+def baba(w=400,h=400):
     root = tk.Tk()
-    simulation = pyengine_cube(root)
+    simulation = pyengine_cube(root,w,h)
     root.mainloop()
