@@ -30,7 +30,7 @@ pysics.baba(400,400) # Executes the engine. ( It creates the window with width a
 |                               Geometric Shape / Function                               |                         Supported                                             
 |:--------------------------------------------------------------------------------------:|:-------------------------------------------------------------------|
 | Cube                                                                                   | ✔️                                                                |
-| Change window size  | **IN THE NEXT UPDATE**
+| Change window size  | ✔️  
 | Rectangle                                                                              | ❌                                                     |
 | Triangle  | ❌
 | Sphere | ❌
