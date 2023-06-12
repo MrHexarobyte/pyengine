@@ -2,8 +2,8 @@
 ## An in-development physics engine module.
 
 
-### UPDATE 2.0, INFINITE OBJECTS UPDATE!
-Now you can create infinite amount of objects.
+### UPDATE 2.1, Window Update
+
 
 Example code:
 ```python
@@ -24,7 +24,7 @@ pysics.Obj.create(type,velocity,bounce_coefficient,size,pos,color,name) # Create
 pysics.Object.create(type, velocity, bounce_coefficient, size, pos2, "red", "obj2") # The second object. Make sure the names are not the same. 
  # Also made the color red in this one and changed the position to pos2, the second variable for position.
  
-pysics.baba() # Executes the engine
+pysics.baba(400,400) # Executes the engine. ( It creates the window with width and height of 400 and 400.
 ```
 
 |                               Geometric Shape / Function                               |                         Supported                                             
@@ -42,6 +42,6 @@ pysics.baba() # Executes the engine
 - [x] make multi-object based
 - [ ] create wiki
 - [ ] add support for more shapes
-- [ ] add window name function
+- [x] add window name function
 
-Version: ``ALPHA 2.0``
+Version: ``ALPHA 2.1``
