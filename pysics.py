@@ -56,9 +56,9 @@ class Object:
 
 
 class pyengine_cube:
-    def __init__(self, master,w,h):
+    def __init__(self, master,w,h,n):
         self.master = master
-        self.canvas_name = 'Physics Graphics'
+        self.canvas_name = n
         self.canvas_width = w
         self.canvas_height = h
         self.time_interval = 0.01
@@ -121,7 +121,7 @@ class pyengine_cube:
         self.last_position = current_position
 
 
-def baba(w=400,h=400):
+def baba(w=400,h=400,n='Physics Graphics'):
     root = tk.Tk()
-    simulation = pyengine_cube(root,w,h)
+    simulation = pyengine_cube(root,w,h,n)
     root.mainloop()
