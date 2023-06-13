@@ -31,10 +31,12 @@ pysics.baba(400,400) # Executes the engine. ( It creates the window with width a
 |:--------------------------------------------------------------------------------------:|:-------------------------------------------------------------------|
 | Cube                                                                                   | ✔️                                                                |
 | Change window size  | ✔️  
+| Drag around object | ❌
 | Rectangle                                                                              | ❌                                                     |
 | Triangle  | ❌
 | Sphere | ❌
 | Ragdoll | ❌
+
 
 
 
