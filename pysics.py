@@ -1,127 +1,173 @@
-import ast
 import tkinter as tk
 
 
-class BaseObj:
-    def __init__(self):
-        self.type = ''
-        self.velocity = 50
-        self.bounce_coefficient = -1.0
-        self.size = 50
-        self.pos = [175, 0]
-        self.color = "red"
-        self.main = f'{self.pos[0]}, {self.pos[1]}, {self.size + self.pos[0]}, {self.size+self.pos[1]}, fill="{self.color}"'
-        self.name = 'example'
+######  - - - - - -  VERSION 3.0 , EVERYTHING CHANGED. LITTERALLY, EVERYTHING.
 
 
+# Constants
+WIDTH, HEIGHT, BG_COLOR = 800, 600, "white"
+
+# Particle class
+class Particle:
+    def __init__(self, x, y, mass, size):
+        self.size = size
+        self.x = x
+        self.y = y
+        self.mass = mass
+        self.vx = 0
+        self.vy = 0
+
+    def apply_force(self, fx, fy):
+        ax = fx / self.mass
+        ay = fy / self.mass
+        self.vx += ax
+        self.vy += ay
+
+    def update(self):
+        self.x += self.vx
+        self.y += self.vy
+
+# Cube class
+class Cube:
+    def __init__(self, x, y, mass, size):
+        self.size = size
+        self.x = x
+        self.y = y
+        self.mass = mass
+        self.vx = 0
+        self.vy = 0
+
+    def apply_force(self, fx, fy):
+        ax = fx / self.mass
+        ay = fy / self.mass
+        self.vx += ax
+        self.vy += ay
+
+    def update(self):
+        self.x += self.vx
+        self.y += self.vy
 
 
+# Physics simulation
+def simulate_physics():
+    global particles, cubes
+    for particle in particles:
+        # Gravity force
+        if particle != drag_obj:
+            particle.apply_force(0, 0.1 * particle.mass)
+
+        # Boundary check
+        if particle.y >= HEIGHT:
+            particle.y = HEIGHT
+            particle.vy *= -0.8
+
+        # Update particle position
+        particle.update()
+
+    for cube in cubes:
+        # Gravity force
+        cube.apply_force(0, 0.1 * cube.mass)
+
+        # Boundary check
+        if cube.y >= HEIGHT:
+            cube.y = HEIGHT
+            cube.vy *= -0.8
+
+        # Update cube position
+        cube.update()
 
 
+# Rendering
+def render_particles():
+    global canvas
+    canvas.delete("all")
+    for particle in particles:
+        canvas.create_oval(
+            particle.x - particle.size,
+            particle.y - particle.size,
+            particle.x + particle.size,
+            particle.y + particle.size,
+            fill="black"
+        )
+    for cube in cubes:
+        canvas.create_rectangle(
+            cube.x - cube.size,
+            cube.y - cube.size,
+            cube.x + cube.size,
+            cube.y + cube.size,
+            fill="red"
+        )
+
+# Mouse event handlers
+def mouse_press(event):
+    global is_dragging, drag_obj, prev_mouse_x, prev_mouse_y, is_obj_held, is_gravity_enabled
+    is_dragging = True
+    for particle in particles:
+        if abs(particle.x - event.x) <= particle.size and abs(particle.y - event.y) <= particle.size and not is_obj_held:
+            drag_obj = particle
+            prev_mouse_x = event.x
+            prev_mouse_y = event.y
+            is_obj_held = True
+            is_gravity_enabled = False
+            break
+    
+    for cube in cubes:
+        if abs(cube.x - event.x) <= cube.size and abs(cube.y - event.y) <= cube.size and not is_obj_held:
+            drag_obj = cube
+            prev_mouse_x = event.x
+            prev_mouse_y = event.y
+            is_obj_held = True
+            is_gravity_enabled = False
+            break
+
+def mouse_release(event):
+    global is_dragging, drag_obj, prev_mouse_x, prev_mouse_y, is_obj_held
+    if is_dragging and drag_obj:
+        is_dragging = False
+        if is_obj_held:
+            dx = event.x - prev_mouse_x
+            dy = event.y - prev_mouse_y
+            drag_obj.vx = dx * 0.05
+            drag_obj.vy = dy * 0.05
+        is_obj_held = False
+        drag_obj = None
 
 
-class Object:
-    created_classes = []
+def mouse_move(event):
+    global is_dragging, drag_obj, prev_mouse_x, prev_mouse_y, is_obj_held
+    if is_dragging and drag_obj and is_obj_held:
+        drag_obj.x = event.x
+        drag_obj.y = event.y
 
-    @classmethod
-    def create(cls, xtype, vel, bc, sz, ps, cl, nm):
-        '''
-        ## --ARGUMENTS:--
-        1: type <-> Type of the shape (ex: `'rect'`)
-        2: velocity <-> Velocity of the shape when program is started (ex: `120`)
-        3: bounce coefficient <-> How much it is gonna bounce. MIN: -1. make sure its negative. Make it 1 to disable bouncing (ex: `-0.6`)
-        4: size <-> Size of the shape (ex: `50`)
-        5: pos <-> Position of the shape with x and y coordinates as a list (ex: `[175,0]`)
-        6: color <-> Color of the shape (ex: `'blue'`)
-        7: name <-> Name of the object (ex: `'MyRectangle'`)
+# Main function
+def baba(particle, cube):
+    global canvas, is_dragging, drag_obj, prev_mouse_x, prev_mouse_y, is_obj_held, is_gravity_enabled
 
-        
-        
-        '''
-        class TemplateClass(BaseObj):
-            def __init__(self):
-                BaseObj.__init__(self)
-                self.type = xtype
-                self.velocity = vel
-                self.bounce_coefficient = bc
-                self.size = sz
-                self.pos = ps
-                self.color = cl
-                self.name = nm
-                self.main = f'{self.pos[0]}, {self.pos[1]}, {self.size + self.pos[0]}, {self.size+self.pos[1]}, fill="{self.color}"'
-
-        new_class = type(nm, (TemplateClass,), {})
-        cls.created_classes.append(new_class)
-        return new_class()
-
-
-class pyengine_cube:
-    def __init__(self, master,w,h,n):
-        self.master = master
-        self.canvas_name = n
-        self.canvas_width = w
-        self.canvas_height = h
-        self.time_interval = 0.01
-        self.canvas = tk.Canvas(master, width=self.canvas_width, height=self.canvas_height, bg='gray')
-        self.canvas.pack()
-        self.rectangles = {}  # Dictionary to store the rectangles
-
-        self.master.title(self.canvas_name)
-        self.canvas.pack()
-        self.master.resizable(False, False)
-        self.last_position = self.master.winfo_geometry()
-
-        created_instances = [cls() for cls in Object.created_classes]
-        for instance in created_instances:
-            self.ins = instance
-            self.nm = instance.name
-            self.m = instance.main
-            self.x = eval(f'self.canvas.create_rectangle({self.m})')
-            self.animate(self.x, instance)
-
-
-
-
-    def animate(self, rect, obj):
-        self.update_position(rect, obj)
-        self.master.after(int(self.time_interval * 1000), lambda: self.animate(rect, obj))
-
-    def update_position(self, rect, obj):
-        x1, y1, x2, y2 = self.canvas.coords(rect)
-
-        # Update position based on velocity
-        y1 += obj.velocity * self.time_interval
-        y2 = y1 + obj.size
-
-        # Check for collision with window edges
-        if y1 < 0 or y2 > self.canvas_height:
-            y1 = max(0, y1)  # Keep the rectangle within the window boundaries
-            y2 = min(self.canvas_height, y2)
-            obj.velocity -= 20
-            obj.velocity *= obj.bounce_coefficient  # Apply bounce off by reversing direction
-            print(obj.velocity)
-
-        if y1 > 0 or y2 < self.canvas_height:
-            obj.velocity += 0.5
-
-        # Update rectangle position
-        self.canvas.coords(rect, x1, y1, x2, y2)
-
-        # Record position
-        current_position = self.master.winfo_geometry()
-        if current_position != self.last_position:
-            # The window has been moved
-            # Get the difference in position
-            diff_x = int(current_position.split('+')[1]) - int(self.last_position.split('+')[1])
-            diff_y = int(current_position.split('+')[2]) - int(self.last_position.split('+')[2])
-            if diff_y > 0:
-                obj.velocity += 50
-            elif diff_y < 0:
-                obj.velocity += 50
-        self.last_position = current_position
-
-
-def baba(w=400,h=400,n='Physics Graphics'):
     root = tk.Tk()
-    simulation = pyengine_cube(root,w,h,n)
+    root.title("Interactive Physics Engine")
+
+    canvas = tk.Canvas(root, width=WIDTH, height=HEIGHT, bg=BG_COLOR)
+    canvas.pack()
+
+    # Assign particles and cubes to global variables
+    globals()["particles"] = particle
+    globals()["cubes"] = cube
+
+    is_dragging = False
+    drag_obj = None
+    prev_mouse_x = 0
+    prev_mouse_y = 0
+    is_obj_held = False
+    is_gravity_enabled = True
+
+    canvas.bind("<ButtonPress-1>", mouse_press)
+    canvas.bind("<ButtonRelease-1>", mouse_release)
+    canvas.bind("<B1-Motion>", mouse_move)
+
+    def update_simulation():
+        simulate_physics()
+        render_particles()
+        root.after(16, update_simulation)
+
+    update_simulation()
     root.mainloop()
