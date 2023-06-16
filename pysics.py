@@ -9,13 +9,15 @@ WIDTH, HEIGHT, BG_COLOR = 800, 600, "white"
 
 # Particle class
 class Particle:
-    def __init__(self, x, y, mass, size):
+    def __init__(self, x, y, mass, size,color="black",outline=""):
         self.size = size
         self.x = x
         self.y = y
         self.mass = mass
         self.vx = 0
         self.vy = 0
+        self.color = color
+        self.outline = outline
 
     def apply_force(self, fx, fy):
         ax = fx / self.mass
@@ -29,13 +31,15 @@ class Particle:
 
 # Cube class
 class Cube:
-    def __init__(self, x, y, mass, size):
+    def __init__(self, x, y, mass, size,color="red",outline=""):
         self.size = size
         self.x = x
         self.y = y
         self.mass = mass
         self.vx = 0
         self.vy = 0
+        self.color = color
+        self.outline = outline
 
     def apply_force(self, fx, fy):
         ax = fx / self.mass
@@ -87,7 +91,8 @@ def render_particles():
             particle.y - particle.size,
             particle.x + particle.size,
             particle.y + particle.size,
-            fill="black"
+            fill=particle.color,
+            outline=particle.outline
         )
     for cube in cubes:
         canvas.create_rectangle(
@@ -95,7 +100,8 @@ def render_particles():
             cube.y - cube.size,
             cube.x + cube.size,
             cube.y + cube.size,
-            fill="red"
+            fill=cube.color,
+            outline=cube.outline
         )
 
 # Mouse event handlers
@@ -140,14 +146,14 @@ def mouse_move(event):
         drag_obj.y = event.y
 
 # Main function
-def baba(particle, cube):
+def baba(particle=[], cube=[]):
     global canvas, is_dragging, drag_obj, prev_mouse_x, prev_mouse_y, is_obj_held, is_gravity_enabled
 
     root = tk.Tk()
     root.title("Interactive Physics Engine")
+    canvas = tk.Canvas(root, width=WIDTH, height=HEIGHT, bg=BG_COLOR,highlightthickness=0)
+    canvas.pack(fill='both')
 
-    canvas = tk.Canvas(root, width=WIDTH, height=HEIGHT, bg=BG_COLOR)
-    canvas.pack()
 
     # Assign particles and cubes to global variables
     globals()["particles"] = particle
