@@ -9,19 +9,20 @@
 
 Example code:
 ```python
-import sa
+import pysics
 
 particles = [
-    sa.Particle(sa.WIDTH/2, sa.HEIGHT/2, 10, 10),
-    sa.Particle(sa.WIDTH/2 - 50, sa.HEIGHT/2 - 100, 5, 10)
+    pysics.Particle(pysics.WIDTH/2, pysics.HEIGHT/2, 10, 10),
+    pysics.Particle(pysics.WIDTH/2 - 50, pysics.HEIGHT/2 - 100, 5, 10)
 ]
 
 cubes = [
-    sa.Cube(sa.WIDTH/2 + 50, sa.HEIGHT/2 + 100,3, 20),
-    sa.Cube(sa.WIDTH/2 + 100, sa.HEIGHT/2 + 150,10, 30)
+    pysics.Cube(pysics.WIDTH/2 + 50, pysics.HEIGHT/2 + 100,3, 20),
+    pysics.Cube(pysics.WIDTH/2 + 100, pysics.HEIGHT/2 + 150,10, 30)
 ]
 
-sa.baba(particle=particles, cube=cubes)
+pysics.baba(particle=particles, cube=cubes)
+
 
 ```
 
