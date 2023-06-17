@@ -47,4 +47,4 @@ pysics.baba(particle=particles, cube=cubes)
 - [ ] add window name function
 - [x] add colors and outlines
 
-Version: ``ALPHA 3.0``
+Version: ``ALPHA 3.1``
