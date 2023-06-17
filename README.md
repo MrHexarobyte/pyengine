@@ -5,7 +5,6 @@
 ### 💫💫 VER 3, EVERYTHING, FROM, THE BEGGINING. 💫💫
  - No more glitches, no more bugs, no more inaccuracies.
  - Added mouse holding and throwing.
- - Soon gonna add getting the x and y as coorditions.
 
 #### Update 3.1, color update
 - Now change the color of the objects you make!
